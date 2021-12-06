@@ -30,7 +30,7 @@ database: srv43968_test
 
 **The request to optimize:**
 
-    SELECT
+    SELECT *
     FROM containers c
     WHERE c.STATUS = 0
       AND (select sum(width* height * length/10000) 

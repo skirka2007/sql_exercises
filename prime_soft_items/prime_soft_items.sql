@@ -1,0 +1,13 @@
+SET @item_name = 'A030001';
+SET @item_volume = 2.5;
+
+SELECT ARTICLE, VOL AS ITEM_VOL, COUNT(VOL) AS NUMBER_ITEMS 
+FROM srv43968_test.items
+GROUP BY ARTICLE, VOL;
+
+
+
+
+SELECT *
+FROM srv43968_test.items
+WHERE ARTICLE = @item_name
