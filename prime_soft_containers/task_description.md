@@ -17,25 +17,41 @@ Boxes to be included in the calculation:
 * NN_REZERV = 0
 
 *Credentials to connect to the database:*
+
 server (host): mysql-srv43968.hts.ru
+
 user: srv43968_test
+
 password: test01
+
 port: 3306
+
 database: srv43968_test
 
 *The request to optimize:*
 
 SELECT
+
 FROM containers c
+
 WHERE c.STATUS = 0
-  AND (select sum(width* height * length/10000) 
+
+  AND (select sum(width* height * length/10000)
+  
       from boxes b 
+      
       where
+      
         ((b.ID_CONTAINER = c.ID and b.ID_CONTAINER_MOVE = 0) 
+        
           OR
+          
           (b.ID_CONTAINER_MOVE = c.ID)) 
+          
         and b.ID_STOCK = 1 
+        
         and b.STATUS = 0 
+        
         and b.NN_REZERV = 0) > 50
 
 The detailed description can be found [here](https://www.youtube.com/watch?v=pmkBZmgkdss)
