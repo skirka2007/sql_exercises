@@ -10,6 +10,7 @@ If it's not possible, we can combine halves.
 
 Item status should equal 0, which means, that this item isn't reserved.
 
+The note about my solution. I wanted to create a procedure to execute this request properly. Unfortunately, this user role isn't allowed to create its own procedure. I've exported the item table to my local host and changed the name of the database to my own one. That's why my script isn't using the srv43968_test database, but my own.
 
 **Credentials to connect to the database:**
 
