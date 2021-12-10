@@ -70,21 +70,27 @@ BEGIN
     	END IF;   			
    
     END IF;
-   	/*PREPARE stmt FROM "(SELECT * FROM test_3_tasks.items WHERE ARTICLE = ? AND VOL = 1 LIMIT ?)
+    
+    SET @num_whole = CONVERT(@num_whole, SIGNED);
+    SET @num_half = CONVERT(@num_half, SIGNED);
+   
+    PREPARE stmt FROM "(SELECT * FROM test_3_tasks.items WHERE ARTICLE = ? AND VOL = 1 LIMIT ?)
 		UNION ALL 
 		(SELECT * FROM test_3_tasks.items WHERE ARTICLE = ? AND VOL = 0.5 LIMIT ?);";
 	EXECUTE stmt USING @item_name, @num_whole, @item_name, @num_half;
-	DEALLOCATE PREPARE stmt;*/
-SELECT(@num_whole);
-SELECT(@num_half);
+	DEALLOCATE PREPARE stmt;
+
 END //
 DELIMITER ;
+
 
 
 SET @item_name = 'A030001';
 SET @item_volume = 10;
 
 CALL num_whole_half(@item_name, @item_volume);
+
+
 
 #to clarify the problem with the execution block
 #signal errors as notification with the maximum available amount
