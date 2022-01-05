@@ -85,3 +85,23 @@ GROUP BY name
 HAVING MIN(num_of_served_pizza) > 0;
 
 
+#h Find the names of all people who frequent every pizzeria serving at least one pizza they eat.
+WITH should_be_list AS
+	(SELECT name, GROUP_CONCAT(DISTINCT pizzeria ORDER BY pizzeria SEPARATOR ',') AS pizzerias_list
+	FROM pizza.Serves s 
+	JOIN pizza.Eats e 
+	ON e.pizza=s.pizza
+	GROUP BY name),
+
+actual_list AS 
+	(SELECT name, GROUP_CONCAT(DISTINCT pizzeria ORDER BY pizzeria SEPARATOR ',') AS pizzerias_list
+	FROM pizza.Frequents f 
+	GROUP BY name)
+
+SELECT should_be_list.name
+FROM should_be_list 
+INNER JOIN actual_list 
+ON should_be_list.pizzerias_list=actual_list.pizzerias_list;
+
+
+
