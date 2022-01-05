@@ -58,4 +58,30 @@ GROUP BY pizzeria
 HAVING divers_factor = 1;
 
 
-# For each person, find all pizzas the person eats that are not served by any pizzeria the person frequents. Return all such person (name) / pizza pairs.
+#f For each person, find all pizzas the person eats that are not served by any pizzeria the person frequents. Return all such person (name) / pizza pairs.
+SELECT *
+FROM pizza.Eats e 
+WHERE pizza NOT IN (SELECT DISTINCT s.pizza
+					FROM pizza.Frequents f 
+					LEFT JOIN pizza.Serves s 
+						ON f.pizzeria = s.pizzeria 
+					WHERE f.name = e.name);
+
+
+#g Find the names of all people who frequent only pizzerias serving at least one pizza they eat.
+WITH num_pizza_per_pizzeria AS
+(SELECT f.name, f.pizzeria,
+	(SELECT COUNT(pizza)
+	FROM pizza.Eats e 
+	WHERE e.name=f.name 
+		AND 
+		e.pizza IN (SELECT pizza FROM pizza.Serves s WHERE s.pizzeria = f.pizzeria)
+	) AS num_of_served_pizza
+FROM pizza.Frequents f)
+
+SELECT name
+FROM num_pizza_per_pizzeria
+GROUP BY name
+HAVING MIN(num_of_served_pizza) > 0;
+
+
