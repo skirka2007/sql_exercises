@@ -103,5 +103,9 @@ FROM should_be_list
 INNER JOIN actual_list 
 ON should_be_list.pizzerias_list=actual_list.pizzerias_list;
 
-
-
+#i Find the pizzeria serving the cheapest pepperoni pizza. In the case of ties, return all of the cheapest-pepperoni pizzerias
+SELECT pizzeria
+FROM pizza.Serves
+WHERE pizza='pepperoni' AND price = (SELECT MIN(price) 
+									FROM pizza.Serves
+									WHERE pizza='pepperoni');
